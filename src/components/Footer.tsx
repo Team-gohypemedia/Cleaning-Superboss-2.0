@@ -150,8 +150,8 @@ export default function Footer({ hideServices }: FooterProps = {}) {
                     CUSTOMER SUPPORT EMAIL
                   </p>
                   <p className="text-xs font-semibold text-[#08295b] hover:text-[#0d47a1] transition-colors mt-0.5">
-                    <a href="mailto:hello@cleaningsuperboss.com" className="break-all sm:break-normal">
-                      hello@cleaningsuperboss.com
+                    <a href="mailto:marketingsuperboss@gmail.com" className="break-all sm:break-normal">
+                      marketingsuperboss@gmail.com
                     </a>
                   </p>
                 </div>

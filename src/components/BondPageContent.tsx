@@ -1409,7 +1409,7 @@ export default function BondPageContent() {
 
                 {/* Email Card */}
                 <a
-                  href="mailto:hello@cleaningsuperboss.com"
+                  href="mailto:marketingsuperboss@gmail.com"
                   className="group flex items-start gap-4 p-4 rounded-2xl bg-[#f8fbfe] border border-[#d0e4f7]/80 hover:border-[#2196f3]/60 hover:bg-white transition-all duration-200"
                 >
                   <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-50 to-indigo-100 border border-indigo-200/80 flex items-center justify-center text-indigo-500 shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
@@ -1421,7 +1421,7 @@ export default function BondPageContent() {
                       <span className="text-[10px] font-bold uppercase tracking-wider bg-indigo-100/70 text-indigo-700 px-2 py-0.5 rounded-full border border-indigo-200">Fast Reply</span>
                     </div>
                     <div className="text-sm font-semibold text-[#0d47a1] group-hover:underline break-all">
-                      hello@cleaningsuperboss.com
+                      marketingsuperboss@gmail.com
                     </div>
                     <div className="text-[11px] text-[#08295b]/60">
                       Average response time under 15 minutes during operating hours

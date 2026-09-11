@@ -274,7 +274,7 @@ export default function InstantQuoteHero() {
   const currentTestimonial = CITY_TESTIMONIALS[selectedCity] || CITY_TESTIMONIALS.perth;
 
   return (
-    <section className="relative w-full bg-[#f8fbfe] text-[#08295b] pt-8 sm:pt-12 md:pt-14 pb-12 sm:pb-16 border-t border-[#d0e4f7] select-none">
+    <section id="quote-form" className="relative w-full bg-[#f8fbfe] text-[#08295b] pt-8 sm:pt-12 md:pt-14 pb-12 sm:pb-16 border-t border-[#d0e4f7] select-none scroll-mt-20">
       
       {/* Background Architectural Blueprint Grid Crosshairs */}
       <div className="absolute inset-0 pointer-events-none opacity-25 bg-[radial-gradient(#0d47a1_1px,transparent_1px)] [background-size:28px_28px] -z-0" />

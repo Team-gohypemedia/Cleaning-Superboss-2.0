@@ -123,19 +123,19 @@ export default function ServicePageTemplate({
           </div>
 
           {/* Right Column: Hero Image Card */}
-          <div className="lg:col-span-5">
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-[#d0e4f7] aspect-[4/3] bg-white group">
+          <div className="lg:col-span-5 w-full">
+            <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-[#d0e4f7] w-full h-[380px] sm:h-[460px] lg:h-[540px] xl:h-[580px] bg-white group">
               <img
                 src={heroImage}
                 alt={serviceTitle}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#08295b]/80 via-transparent to-transparent flex items-end p-6">
+              <div className="absolute inset-0 bg-gradient-to-t from-[#08295b]/85 via-transparent to-transparent flex items-end p-6 sm:p-8">
                 <div className="text-white space-y-1">
-                  <span className="text-[10px] font-bold uppercase tracking-wider bg-[#2196f3] px-2.5 py-0.5 rounded-full">
+                  <span className="text-[10px] font-bold uppercase tracking-wider bg-[#2196f3] px-3 py-1 rounded-full shadow-sm">
                     Spotless Guarantee
                   </span>
-                  <h3 className="text-lg font-bold">{serviceTitle}</h3>
+                  <h3 className="text-xl sm:text-2xl font-bold">{serviceTitle}</h3>
                 </div>
               </div>
             </div>

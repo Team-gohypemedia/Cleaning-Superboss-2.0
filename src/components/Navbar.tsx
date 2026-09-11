@@ -41,11 +41,7 @@ export default function Navbar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const isBondPage =
-    pathname === "/" ||
-    pathname === "/end-of-lease-cleaning-services" ||
-    pathname === "/services/bond" ||
-    pathname?.startsWith("/end-of-lease");
+  const isBondPage = pathname === "/landing/bond-cleaning";
 
   const handleScrollToQuoteForm = () => {
     setMobileMenuOpen(false);
@@ -58,7 +54,7 @@ export default function Navbar() {
   };
 
   const handleLogoClick = (e: React.MouseEvent) => {
-    if (isBondPage) {
+    if (pathname === "/") {
       e.preventDefault();
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
@@ -91,11 +87,17 @@ export default function Navbar() {
         {/* Center: Navigation Links (Hidden on Bond Page) */}
         {!isBondPage && (
           <nav className="hidden lg:flex items-center bg-zinc-900/90 backdrop-blur-2xl border border-white/10 rounded-full px-5 xl:px-6 py-2 shadow-xl text-xs font-semibold text-zinc-300 gap-4 xl:gap-5">
-            <Link href="/" className="text-white hover:text-[#2196f3] transition-colors">
+            <Link
+              href="/"
+              className={`${pathname === "/" ? "text-white" : "text-zinc-300 hover:text-white"} transition-colors`}
+            >
               Home
             </Link>
 
-            <Link href="/book" className="text-[#2196f3] font-bold hover:text-white transition-colors">
+            <Link
+              href="/book"
+              className={`${pathname === "/book" ? "text-white" : "text-zinc-300 hover:text-white"} transition-colors`}
+            >
               Book
             </Link>
 
@@ -109,7 +111,7 @@ export default function Navbar() {
               <Link
                 href="/services"
                 onClick={() => setServicesOpen(false)}
-                className="flex items-center gap-1 hover:text-white transition-colors cursor-pointer py-1"
+                className={`flex items-center gap-1 ${pathname?.startsWith("/services") || pathname?.includes("end-of-lease") ? "text-white" : "text-zinc-300 hover:text-white"} transition-colors cursor-pointer py-1`}
               >
                 <span>Services</span>
                 <ChevronDown className={`w-3 h-3 transition-transform duration-200 ${servicesOpen ? "rotate-180" : ""}`} />
@@ -206,14 +208,14 @@ export default function Navbar() {
             <Link
               href="/"
               onClick={() => setMobileMenuOpen(false)}
-              className="block text-sm font-semibold text-[#08295b] hover:text-[#2196f3] py-1"
+              className={`block text-sm font-semibold py-1 ${pathname === "/" ? "text-[#0d47a1]" : "text-[#08295b] hover:text-[#2196f3]"}`}
             >
               Home
             </Link>
             <Link
               href="/book"
               onClick={() => setMobileMenuOpen(false)}
-              className="block text-sm font-semibold text-[#0d47a1] py-1"
+              className={`block text-sm font-semibold py-1 ${pathname === "/book" ? "text-[#0d47a1]" : "text-[#08295b] hover:text-[#2196f3]"}`}
             >
               Book Online
             </Link>

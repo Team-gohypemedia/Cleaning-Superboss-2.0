@@ -44,17 +44,12 @@ interface FooterProps {
 
 export default function Footer({ hideServices }: FooterProps = {}) {
   const pathname = usePathname();
-  const isBondPage =
-    pathname === "/" ||
-    pathname === "/end-of-lease-cleaning-services" ||
-    pathname === "/services/bond" ||
-    pathname?.startsWith("/end-of-lease") ||
-    pathname === "/landing/bond-cleaning";
+  const isBondPage = pathname === "/landing/bond-cleaning";
 
   const shouldHideServices = hideServices || isBondPage;
 
   const handleLogoClick = (e: React.MouseEvent) => {
-    if (isBondPage) {
+    if (pathname === "/") {
       e.preventDefault();
       window.scrollTo({ top: 0, behavior: "smooth" });
     }

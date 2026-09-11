@@ -1,63 +1,80 @@
 import React from "react";
-import BondPageContent from "@/components/BondPageContent";
+// Dedicated End-of-Lease Cleaning Services Page component (commented out as requested)
+// import BondPageContent from "@/components/BondPageContent";
 import type { Metadata } from "next";
 
-// Previous Home page components commented out as requested
-// import HeroMachineScroll from "@/components/HeroMachineScroll";
-// import RibbonSection from "@/components/RibbonSection";
-// import InstantQuoteHero from "@/components/InstantQuoteHero";
-// import LogoGrid from "@/components/LogoGrid";
-// import MasterBrand from "@/components/MasterBrand";
-// import ServicesHoverModalSection from "@/components/ServicesHoverModalSection";
-// import ShowcaseBentoGallery from "@/components/ShowcaseBentoGallery";
-// import BeforeAfterShowcase from "@/components/BeforeAfterShowcase";
-// import TestimonialBanner from "@/components/TestimonialBanner";
-// import AustralianTrustAndAreas from "@/components/AustralianTrustAndAreas";
-// import ContactSection from "@/components/ContactSection";
-// import FaqSection from "@/components/FaqSection";
-// import Footer from "@/components/Footer";
+import HeroMachineScroll from "@/components/HeroMachineScroll";
+import RibbonSection from "@/components/RibbonSection";
+import InstantQuoteHero from "@/components/InstantQuoteHero";
+import LogoGrid from "@/components/LogoGrid";
+import MasterBrand from "@/components/MasterBrand";
+import ServicesHoverModalSection from "@/components/ServicesHoverModalSection";
+import ShowcaseBentoGallery from "@/components/ShowcaseBentoGallery";
+import BeforeAfterShowcase from "@/components/BeforeAfterShowcase";
+import TestimonialBanner from "@/components/TestimonialBanner";
+import AustralianTrustAndAreas from "@/components/AustralianTrustAndAreas";
+import ContactSection from "@/components/ContactSection";
+import FaqSection from "@/components/FaqSection";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "End of Lease Cleaning Perth | Bond Cleaning WA | Cleaning Superboss",
+  title: "Cleaning Superboss | Professional Home & Commercial Cleaning Australia",
   description:
-    "100% Bond Back Guarantee in Perth & Western Australia! Professional end-of-lease vacate cleaning tailored for WA real estate checklists. Free re-clean if required. Get a free quote online in 60s.",
-  keywords: [
-    "End of Lease Cleaning Perth",
-    "Bond Cleaning Perth",
-    "Vacate Cleaning Perth WA",
-    "Bond Cleaners Perth",
-    "End of Tenancy Cleaning Western Australia",
-    "Real Estate Vacate Cleaning Perth",
-    "End Of Lease Cleaning Services",
-  ],
+    "Professional cleaning services across Australia. Home cleaning, deep cleaning, bond cleaning, Airbnb turnovers & commercial cleaning. Police checked, insured cleaners. Book online in 60 seconds.",
 };
 
 export default function Home() {
   return (
     <main>
-      {/* Dedicated End-of-Lease Cleaning Services Page on Home */}
-      <BondPageContent />
-
       {/* 
       ========================================================
-      PREVIOUS HOME PAGE SECTIONS (COMMENTED OUT)
+      BOND PAGE CONTENT (COMMENTED OUT AS REQUESTED)
       ========================================================
-      <div className="relative bg-[#f8fbfe] text-[#08295b] min-h-screen overflow-x-clip">
-        <HeroMachineScroll />
-        <RibbonSection />
-        <InstantQuoteHero />
-        <LogoGrid />
-        <MasterBrand />
-        <ServicesHoverModalSection />
-        <BeforeAfterShowcase />
-        <AustralianTrustAndAreas />
-        <ShowcaseBentoGallery />
-        <TestimonialBanner />
-        <ContactSection />
-        <FaqSection />
-        <Footer />
-      </div> 
+      <BondPageContent /> 
       */}
+
+      {/* Main Home Page Sections */}
+      <div className="relative bg-[#f8fbfe] text-[#08295b] min-h-screen overflow-x-clip">
+        {/* Hero Machine Scroll Sequence */}
+        <HeroMachineScroll />
+
+        {/* Infinite Ribbon Dual Marquee */}
+        <RibbonSection />
+
+        {/* Hero Quoting Engine: Get Your Price in Minutes */}
+        <InstantQuoteHero />
+
+        {/* Built by the Industry Logo Grid */}
+        <LogoGrid />
+
+        {/* The Authority Engine Sticky Scroll Section */}
+        <MasterBrand />
+
+        {/* Services with Animated Hover Modal */}
+        <ServicesHoverModalSection />
+
+        {/* Before & After Photo Transformations */}
+        <BeforeAfterShowcase />
+
+        {/* Australian Credentials, ABN, Insurance & Multiple Service Locations */}
+        <AustralianTrustAndAreas />
+
+        {/* Production Output Bento Grid Gallery */}
+        <ShowcaseBentoGallery />
+
+        {/* Testimonial Banner Section */}
+        <TestimonialBanner />
+
+        {/* Contact Form Section */}
+        <ContactSection />
+
+        {/* Interactive Tabbed FAQ Section */}
+        <FaqSection />
+
+        {/* Footer with Parallax CTA */}
+        <Footer />
+      </div>
     </main>
   );
 }
+

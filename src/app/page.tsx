@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 
 import HeroMachineScroll from "@/components/HeroMachineScroll";
 import RibbonSection from "@/components/RibbonSection";
+import HorizontalScrollGallery from "@/components/HorizontalScrollGallery";
 import InstantQuoteHero from "@/components/InstantQuoteHero";
 import LogoGrid from "@/components/LogoGrid";
 import MasterBrand from "@/components/MasterBrand";
@@ -40,6 +41,9 @@ export default function Home() {
 
         {/* Infinite Ribbon Dual Marquee */}
         <RibbonSection />
+
+        {/* Oryzo-Style Pinned Horizontal Scroll Gallery Showcase */}
+        <HorizontalScrollGallery />
 
         {/* Hero Quoting Engine: Get Your Price in Minutes */}
         <InstantQuoteHero />

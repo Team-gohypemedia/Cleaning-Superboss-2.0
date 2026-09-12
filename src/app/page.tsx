@@ -38,6 +38,9 @@ export default function Home() {
         {/* Hero Machine Scroll Sequence */}
         <HeroMachineScroll />
 
+        {/* Hero End Sentinel Marker */}
+        <div id="hero-end-marker" className="w-full h-0 pointer-events-none" />
+
         {/* Infinite Ribbon Dual Marquee */}
         <RibbonSection />
 

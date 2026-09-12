@@ -5,6 +5,7 @@ import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import Navbar from "@/components/Navbar";
 import MobileStickyBottomBar from "@/components/MobileStickyBottomBar";
+import { CountryProvider } from "@/context/CountryContext";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -44,11 +45,13 @@ export default function RootLayout({
         />
       </head>
       <body className={`${inter.className} bg-[#f8fbfe] text-[#08295b] antialiased`}>
-        <SmoothScroll>
-          <Navbar />
-          <main>{children}</main>
-          {/* <MobileStickyBottomBar /> */}
-        </SmoothScroll>
+        <CountryProvider>
+          <SmoothScroll>
+            <Navbar />
+            <main>{children}</main>
+            {/* <MobileStickyBottomBar /> */}
+          </SmoothScroll>
+        </CountryProvider>
       </body>
     </html>
   );

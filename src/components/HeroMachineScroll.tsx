@@ -112,6 +112,12 @@ export default function HeroMachineScroll() {
           end: "+=500%",
           pin: true,
           scrub: 0.5,
+          onLeave: () => {
+            window.dispatchEvent(new CustomEvent("heroScrollState", { detail: { pastHero: true } }));
+          },
+          onEnterBack: () => {
+            window.dispatchEvent(new CustomEvent("heroScrollState", { detail: { pastHero: false } }));
+          },
           onUpdate: (self) => {
             const progress = self.progress;
 
@@ -237,6 +243,7 @@ export default function HeroMachineScroll() {
   return (
     <section
       ref={sectionRef}
+      id="hero-section"
       className="relative h-screen h-[100dvh] w-full bg-zinc-950 overflow-hidden flex items-center justify-center select-none lg:cursor-none"
     >
       {/* Self-contained CSS styles for the metallic shiny text effect */}

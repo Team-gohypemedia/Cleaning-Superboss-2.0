@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { Menu, X, ChevronDown, Phone } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useCountry } from "@/context/CountryContext";
 
 const serviceLinks = [
   { label: "Home Cleaning", href: "/services/home" },
@@ -15,6 +16,7 @@ const serviceLinks = [
 
 export default function Navbar() {
   const pathname = usePathname();
+  const { countryConfig } = useCountry();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
@@ -22,13 +24,50 @@ export default function Navbar() {
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+    // 1. Direct event from GSAP ScrollTrigger when leaving / re-entering hero
+    const handleHeroState = (e: Event) => {
+      const customEvent = e as CustomEvent<{ pastHero: boolean }>;
+      if (customEvent.detail !== undefined) {
+        setIsScrolled(customEvent.detail.pastHero);
+      }
     };
+    window.addEventListener("heroScrollState", handleHeroState);
+
+    // 2. Continuous scroll check tracking the exact end position of the hero section
+    const handleScroll = () => {
+      const marker = document.getElementById("hero-end-marker");
+      if (marker) {
+        const rect = marker.getBoundingClientRect();
+        // Background only turns on once the element after the hero reaches the top
+        setIsScrolled(rect.top <= 80);
+        return;
+      }
+
+      const heroEl = document.getElementById("hero-section");
+      if (heroEl) {
+        const pinSpacer =
+          heroEl.closest(".pin-spacer") ||
+          (heroEl.parentElement?.classList.contains("pin-spacer")
+            ? heroEl.parentElement
+            : null);
+        const targetEl = pinSpacer || heroEl;
+        const rect = targetEl.getBoundingClientRect();
+        setIsScrolled(rect.bottom <= 80);
+        return;
+      }
+
+      // Default for pages without a hero section
+      setIsScrolled(window.scrollY > 80);
+    };
+
     window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+
+    return () => {
+      window.removeEventListener("heroScrollState", handleHeroState);
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [pathname]);
 
   // Close services dropdown on outside click
   useEffect(() => {
@@ -62,10 +101,10 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 px-3.5 sm:px-6 md:px-8 lg:px-10 transition-all duration-300 ${
-        isScrolled
+      className={`fixed top-0 left-0 right-0 z-50 px-3.5 sm:px-6 md:px-8 lg:px-10 transition-all duration-500 ease-out ${
+        isScrolled || mobileMenuOpen
           ? "bg-white/95 backdrop-blur-xl border-b border-[#d0e4f7]/90 shadow-sm py-2 sm:py-2.5"
-          : "bg-white/80 backdrop-blur-md border-b border-[#d0e4f7]/60 py-2.5 sm:py-3.5"
+          : "bg-transparent border-b border-transparent shadow-none py-3.5 sm:py-4.5"
       }`}
     >
       <div className="w-full max-w-[1440px] mx-auto flex items-center justify-between">
@@ -163,28 +202,32 @@ export default function Navbar() {
             <span>Request a Quote</span>
           </button>
         ) : (
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-2 sm:gap-2.5">
             {/* Phone Link (desktop & tablet) */}
             <a
-              href="tel:+61460849843"
-              className="hidden sm:inline-flex items-center gap-1.5 text-xs font-bold text-[#08295b] hover:text-[#0d47a1] bg-[#f8fbfe] hover:bg-[#e3f2fd] border border-[#d0e4f7] px-3.5 py-2 rounded-full transition-all shadow-2xs"
+              href={`tel:${countryConfig.phone}`}
+              className={`hidden sm:inline-flex items-center gap-1.5 text-xs font-bold text-[#08295b] hover:text-[#0d47a1] border border-[#d0e4f7] px-3.5 py-2 rounded-full transition-all shadow-2xs ${
+                isScrolled ? "bg-[#f8fbfe] hover:bg-[#e3f2fd]" : "bg-white/85 backdrop-blur-md hover:bg-white"
+              }`}
             >
               <Phone className="w-3.5 h-3.5 text-[#0d47a1]" />
-              <span>+61 460 849 843</span>
+              <span>{countryConfig.formattedPhone}</span>
             </a>
 
             {/* Quick Call Icon for Small Mobile Screens */}
             <a
-              href="tel:+61460849843"
-              className="sm:hidden flex items-center justify-center w-9 h-9 rounded-full bg-[#e3f2fd] border border-[#d0e4f7] text-[#0d47a1] active:scale-95 transition-transform shadow-2xs"
-              aria-label="Call Cleaning Superboss"
+              href={`tel:${countryConfig.phone}`}
+              className={`sm:hidden flex items-center justify-center w-9 h-9 rounded-full border border-[#d0e4f7] text-[#0d47a1] active:scale-95 transition-all shadow-2xs ${
+                isScrolled ? "bg-[#e3f2fd]" : "bg-white/85 backdrop-blur-md"
+              }`}
+              aria-label={`Call Cleaning Superboss ${countryConfig.name}`}
             >
               <Phone className="w-4 h-4" />
             </a>
 
             <Link
               href="/book"
-              className="px-5 py-2 rounded-full bg-[#0d47a1] text-white text-xs font-bold uppercase tracking-wider hover:bg-[#2196f3] transition-all shadow-lg hover:shadow-[#2196f3]/30 active:scale-95"
+              className="px-4 sm:px-5 py-2 rounded-full bg-[#0d47a1] text-white text-xs font-bold uppercase tracking-wider hover:bg-[#2196f3] transition-all shadow-lg hover:shadow-[#2196f3]/30 active:scale-95 whitespace-nowrap"
             >
               Book Now
             </Link>
@@ -192,7 +235,9 @@ export default function Navbar() {
             {/* Mobile Hamburger Menu Toggle */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 rounded-xl bg-[#f8fbfe] border border-[#d0e4f7] text-[#08295b] hover:text-[#0d47a1] transition-colors cursor-pointer"
+              className={`lg:hidden p-2 rounded-xl border border-[#d0e4f7] text-[#08295b] hover:text-[#0d47a1] transition-all cursor-pointer ${
+                isScrolled ? "bg-[#f8fbfe]" : "bg-white/85 backdrop-blur-md"
+              }`}
               aria-label="Toggle Menu"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -244,11 +289,11 @@ export default function Navbar() {
 
           <div className="pt-3 border-t border-[#d0e4f7] space-y-2">
             <a
-              href="tel:+61460849843"
+              href={`tel:${countryConfig.phone}`}
               className="flex items-center justify-center gap-2 text-xs font-bold text-[#08295b] bg-[#f8fbfe] border border-[#d0e4f7] py-2.5 rounded-xl hover:bg-[#e3f2fd] transition-colors"
             >
               <Phone className="w-4 h-4 text-[#0d47a1]" />
-              <span>Call: +61 460 849 843</span>
+              <span>Call: {countryConfig.formattedPhone}</span>
             </a>
             <button
               type="button"

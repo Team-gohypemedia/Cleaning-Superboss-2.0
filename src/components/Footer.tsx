@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useCountry } from "@/context/CountryContext";
+import CountrySelector from "@/components/CountrySelector";
 
 const marqueeText =
   "PROFESSIONAL HOME CLEANING · DEEP CLEANING · BOND CLEANING · AIRBNB TURNOVERS · COMMERCIAL CLEANING · 100% SPOTLESS GUARANTEE · POLICE CHECKED & INSURED";
@@ -44,6 +46,7 @@ interface FooterProps {
 
 export default function Footer({ hideServices }: FooterProps = {}) {
   const pathname = usePathname();
+  const { countryConfig } = useCountry();
   const isBondPage = pathname === "/landing/bond-cleaning";
 
   const shouldHideServices = hideServices || isBondPage;
@@ -88,14 +91,14 @@ export default function Footer({ hideServices }: FooterProps = {}) {
               <p className="text-xs text-[#08295b]/70 leading-relaxed pr-4 font-light mt-1">
                 {isBondPage
                   ? "Cleaning Superboss Perth — Providing hotel-grade bond, vacate, and end-of-lease cleaning with upfront pricing and police-checked cleaners across Greater Perth and Western Australia."
-                  : "Cleaning Superboss Ltd — registered in Australia. Providing hotel-grade residential, bond, and commercial cleaning with upfront pricing and police-checked cleaners nationwide."}
+                  : countryConfig.brandSubtitle}
               </p>
               {!isBondPage && (
                 <div className="mt-3 pt-3 border-t border-[#d0e4f7]/80 space-y-1 text-[11px] text-[#08295b]/80 font-medium">
-                  <div><strong>ABN:</strong> 48 642 918 203</div>
-                  <div><strong>Insurance:</strong> $10M Public Liability Cover</div>
+                  <div><strong>{countryConfig.registration.label}:</strong> {countryConfig.registration.value}</div>
+                  <div><strong>Insurance:</strong> {countryConfig.insurance}</div>
                   <div>
-                    <strong>Coverage:</strong> Australia Wide
+                    <strong>Coverage:</strong> {countryConfig.coverageText}
                   </div>
                 </div>
               )}
@@ -132,10 +135,10 @@ export default function Footer({ hideServices }: FooterProps = {}) {
                 {!isBondPage && (
                   <div>
                     <p className="text-[9px] font-semibold uppercase tracking-wider text-[#08295b]/50">
-                      PERTH OFFICE / HEADQUARTERS
+                      {countryConfig.office.title.toUpperCase()}
                     </p>
                     <p className="text-xs font-semibold text-[#08295b] mt-0.5 leading-snug">
-                      Unit 3, 25 Morrison Street, Como WA 6152
+                      {countryConfig.office.fullAddress}
                     </p>
                   </div>
                 )}
@@ -145,18 +148,9 @@ export default function Footer({ hideServices }: FooterProps = {}) {
                     CUSTOMER SUPPORT EMAIL
                   </p>
                   <p className="text-xs font-semibold text-[#08295b] hover:text-[#0d47a1] transition-colors mt-0.5">
-                    <a href="mailto:marketingsuperboss@gmail.com" className="break-all sm:break-normal">
-                      marketingsuperboss@gmail.com
+                    <a href={`mailto:${countryConfig.email}`} className="break-all sm:break-normal">
+                      {countryConfig.email}
                     </a>
-                  </p>
-                </div>
-
-                <div>
-                  <p className="text-[9px] font-semibold uppercase tracking-wider text-[#08295b]/50">
-                    SERVICE COVERAGE
-                  </p>
-                  <p className="text-xs font-semibold text-[#08295b] mt-0.5">
-                    Greater Perth &amp; Western Australia
                   </p>
                 </div>
 
@@ -165,7 +159,7 @@ export default function Footer({ hideServices }: FooterProps = {}) {
                     HOURS OF OPERATION
                   </p>
                   <p className="text-xs font-semibold text-[#08295b] mt-0.5">
-                    {isBondPage ? "Mon–Sun: 7:00 AM – 8:00 PM AWST" : "Mon–Sun: 7:00 AM – 8:00 PM AEST"}
+                    {isBondPage ? "Mon–Sun: 7:00 AM – 8:00 PM AWST" : countryConfig.operatingHours}
                   </p>
                 </div>
               </div>
@@ -204,13 +198,16 @@ export default function Footer({ hideServices }: FooterProps = {}) {
           </div>
 
           {/* Bottom copyright row */}
-          <div className={`mt-8 sm:mt-12 pt-4 sm:pt-6 border-t border-[#d0e4f7] flex flex-col sm:flex-row ${isBondPage ? "justify-end" : "justify-between"} items-center gap-2 relative z-10 w-full`}>
-            <p className="text-[8px] sm:text-[9px] text-[#08295b]/60 uppercase tracking-widest font-medium text-right sm:ml-auto">
+          <div className={`mt-8 sm:mt-12 pt-4 sm:pt-6 border-t border-[#d0e4f7] flex flex-col sm:flex-row ${isBondPage ? "justify-end" : "justify-between"} items-center gap-3 relative z-10 w-full`}>
+            <p className="text-[8px] sm:text-[9px] text-[#08295b]/60 uppercase tracking-widest font-medium text-left">
               &copy; {new Date().getFullYear()} CLEANING SUPERBOSS LTD · ALL RIGHTS RESERVED.
             </p>
             {!isBondPage && (
-              <div className="text-[8px] sm:text-[9px] uppercase tracking-widest text-[#08295b]/60 font-bold">
-                AUSTRALIA WIDE
+              <div className="flex items-center gap-2.5">
+                <CountrySelector />
+                <div className="text-[8px] sm:text-[9px] uppercase tracking-widest text-[#08295b]/60 font-bold bg-[#e3f2fd] px-2 py-0.5 rounded">
+                  {countryConfig.copyrightTag}
+                </div>
               </div>
             )}
           </div>

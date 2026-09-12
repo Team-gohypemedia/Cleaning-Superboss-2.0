@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   ShieldCheck,
@@ -12,6 +12,7 @@ import {
   Building2,
   Globe2,
 } from "lucide-react";
+import { useCountry } from "@/context/CountryContext";
 
 interface AustralianCityHub {
   id: string;
@@ -28,6 +29,7 @@ interface InternationalHub {
   region: string;
   badge: string;
   phone: string;
+  address: string;
   suburbs: string[];
   ctaText: string;
   slug: string;
@@ -132,6 +134,7 @@ const INTERNATIONAL_HUBS: InternationalHub[] = [
     region: "Australia",
     badge: "Primary Registered Hub",
     phone: "+61 460 849 843",
+    address: "Unit 3, 25 Morrison Street, Como WA 6152, Australia",
     suburbs: [
       "Greater Sydney (CBD, Eastern Suburbs, Inner West, North Shore)",
       "Greater Melbourne (CBD, South Yarra, Richmond, St Kilda, Brighton)",
@@ -147,12 +150,13 @@ const INTERNATIONAL_HUBS: InternationalHub[] = [
     region: "California, USA",
     badge: "State Registered Entity",
     phone: "+61 460 849 843",
+    address: "15442 Ventura Blvd, Suite 201-2176, Sherman Oaks, CA 91403, United States",
     suburbs: [
+      "Sherman Oaks & Ventura Blvd Headquarters",
       "Los Angeles & West Hollywood",
       "San Francisco & Bay Area",
       "Silicon Valley & San Jose",
-      "San Diego & La Jolla",
-      "Orange County & Newport Beach",
+      "Orange County & San Diego",
     ],
     ctaText: "Book in California",
     slug: "/book",
@@ -162,12 +166,13 @@ const INTERNATIONAL_HUBS: InternationalHub[] = [
     region: "London, UK",
     badge: "Registered UK Office",
     phone: "+61 460 849 843",
+    address: "1st Floor, 124 Cleveland Street, London, W1T 6PG, United Kingdom",
     suburbs: [
+      "124 Cleveland Street & Fitzrovia",
       "Central London & City of London",
       "Westminster, Kensington & Chelsea",
       "Camden, Islington & Highbury",
-      "Canary Wharf & Docklands",
-      "Greater London Postcodes",
+      "Canary Wharf & Greater London",
     ],
     ctaText: "Book in London",
     slug: "/book",
@@ -220,7 +225,16 @@ function CountryFlagBadge({ country }: { country: string }) {
 }
 
 export default function AustralianTrustAndAreas() {
-  const [coverageMode, setCoverageMode] = useState<"national" | "international">("national");
+  const { country, countryConfig } = useCountry();
+  const [coverageMode, setCoverageMode] = useState<"national" | "international">(
+    country === "us" || country === "uk" ? "international" : "national"
+  );
+
+  useEffect(() => {
+    if (country === "us" || country === "uk") {
+      setCoverageMode("international");
+    }
+  }, [country]);
 
   return (
     <section className="py-12 sm:py-20 md:py-24 px-3.5 sm:px-6 md:px-10 lg:px-14 bg-[#f8fbfe] border-t border-[#d0e4f7]">
@@ -246,11 +260,11 @@ export default function AustralianTrustAndAreas() {
             {/* Direct Contact & Phone Pill */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3 w-full sm:w-auto">
               <a
-                href="tel:+61460849843"
+                href={`tel:${countryConfig.phone}`}
                 className="w-full sm:w-auto px-4 sm:px-5 py-2.5 sm:py-3 rounded-lg bg-[#0d47a1] hover:bg-[#2196f3] text-white text-xs sm:text-sm font-bold uppercase tracking-wider shadow-sm transition-all flex items-center justify-center gap-2"
               >
                 <Phone className="w-4 h-4" />
-                <span>Call +61 460 849 843</span>
+                <span>Call {countryConfig.formattedPhone}</span>
               </a>
               <Link
                 href="/book"
@@ -425,49 +439,82 @@ export default function AustralianTrustAndAreas() {
           {/* INTERNATIONAL 3-CARD GRID (Australia, California, London) */}
           {coverageMode === "international" && (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
-              {INTERNATIONAL_HUBS.map((area) => (
-                <div
-                  key={area.id}
-                  className="bg-white rounded-2xl border border-[#d0e4f7] p-4.5 sm:p-6 shadow-xs space-y-4 hover:shadow-md transition-all flex flex-col justify-between"
-                >
-                  <div className="space-y-3.5">
-                    <div className="flex items-center justify-between border-b border-[#d0e4f7] pb-3 gap-2">
-                      <div className="flex items-center gap-2 min-w-0">
-                        <CountryFlagBadge country={area.region} />
-                        <h3 className="font-extrabold text-base sm:text-lg text-[#08295b] tracking-tight leading-tight truncate">
-                          {area.region}
-                        </h3>
-                      </div>
-                      <span className="text-[10px] font-bold text-[#0d47a1] bg-[#e3f2fd] px-2.5 py-0.5 rounded-md shrink-0 whitespace-nowrap">
-                        {area.badge}
+              {INTERNATIONAL_HUBS.map((area) => {
+                const isCurrentHub =
+                  (country === "us" && area.id === "california") ||
+                  (country === "uk" && area.id === "london") ||
+                  (country === "au" && area.id === "australia");
+
+                return (
+                  <div
+                    key={area.id}
+                    className={`bg-white rounded-2xl border p-4.5 sm:p-6 shadow-xs space-y-4 hover:shadow-md transition-all flex flex-col justify-between relative ${
+                      isCurrentHub
+                        ? "border-[#0d47a1] ring-2 ring-[#2196f3]/30"
+                        : "border-[#d0e4f7]"
+                    }`}
+                  >
+                    {isCurrentHub && (
+                      <span className="absolute -top-2.5 right-4 text-[9px] font-mono font-bold uppercase tracking-wider bg-[#0d47a1] text-white px-2 py-0.5 rounded-full shadow-xs">
+                        Active Hub
                       </span>
+                    )}
+
+                    <div className="space-y-3.5">
+                      <div className="flex items-center justify-between border-b border-[#d0e4f7] pb-3 gap-2">
+                        <div className="flex items-center gap-2 min-w-0">
+                          <CountryFlagBadge country={area.region} />
+                          <h3 className="font-extrabold text-base sm:text-lg text-[#08295b] tracking-tight leading-tight truncate">
+                            {area.region}
+                          </h3>
+                        </div>
+                        <span className="text-[10px] font-bold text-[#0d47a1] bg-[#e3f2fd] px-2.5 py-0.5 rounded-md shrink-0 whitespace-nowrap">
+                          {area.badge}
+                        </span>
+                      </div>
+
+                      {/* Physical Address Block */}
+                      <div className="bg-[#f8fbfe] border border-[#d0e4f7] rounded-xl p-3 space-y-1">
+                        <div className="flex items-center gap-1.5 text-[10px] font-mono font-bold uppercase tracking-wider text-[#08295b]/60">
+                          <Building2 className="w-3.5 h-3.5 text-[#2196f3]" />
+                          <span>Registered Location</span>
+                        </div>
+                        <p className="text-xs font-semibold text-[#08295b] leading-snug">
+                          {area.address}
+                        </p>
+                      </div>
+
+                      <div className="text-xs font-bold text-[#0d47a1] flex items-center gap-1.5">
+                        <Phone className="w-3.5 h-3.5 text-[#2196f3]" />
+                        <span>Dispatch: {area.phone}</span>
+                      </div>
+
+                      <div>
+                        <p className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#08295b]/50 mb-1.5">
+                          Metropolitan Service Hubs
+                        </p>
+                        <ul className="space-y-1.5 sm:space-y-2 text-xs text-[#08295b]/75">
+                          {area.suburbs.map((hub, hIdx) => (
+                            <li key={hIdx} className="flex items-start gap-2">
+                              <MapPin className="w-3.5 h-3.5 text-[#2196f3] shrink-0 mt-0.5" />
+                              <span className="leading-snug">{hub}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
                     </div>
 
-                    <div className="text-xs font-bold text-[#0d47a1] flex items-center gap-1.5">
-                      <Phone className="w-3.5 h-3.5 text-[#2196f3]" />
-                      <span>Dispatch: {area.phone}</span>
+                    <div className="pt-3.5 sm:pt-4 border-t border-[#d0e4f7]">
+                      <Link
+                        href={area.slug}
+                        className="block text-center py-2.5 rounded-lg bg-[#0d47a1] hover:bg-[#2196f3] text-white text-xs font-bold uppercase tracking-wider transition-all shadow-xs"
+                      >
+                        {area.ctaText}
+                      </Link>
                     </div>
-
-                    <ul className="space-y-1.5 sm:space-y-2 text-xs text-[#08295b]/75">
-                      {area.suburbs.map((hub, hIdx) => (
-                        <li key={hIdx} className="flex items-start gap-2">
-                          <MapPin className="w-3.5 h-3.5 text-[#2196f3] shrink-0 mt-0.5" />
-                          <span className="leading-snug">{hub}</span>
-                        </li>
-                      ))}
-                    </ul>
                   </div>
-
-                  <div className="pt-3.5 sm:pt-4 border-t border-[#d0e4f7]">
-                    <Link
-                      href={area.slug}
-                      className="block text-center py-2.5 rounded-lg bg-[#0d47a1] hover:bg-[#2196f3] text-white text-xs font-bold uppercase tracking-wider transition-all shadow-xs"
-                    >
-                      {area.ctaText}
-                    </Link>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
 

@@ -7,6 +7,7 @@ import TrustBadges from "@/components/TrustBadges";
 import PricingTable, { PricingRow } from "@/components/PricingTable";
 import ServiceComparisonTable from "@/components/ServiceComparisonTable";
 import Footer from "@/components/Footer";
+import { useCountry } from "@/context/CountryContext";
 
 export interface ServiceIncludedItem {
   category: string;
@@ -50,16 +51,17 @@ export default function ServicePageTemplate({
   faqs,
   testimonial,
 }: ServicePageTemplateProps) {
+  const { countryConfig } = useCountry();
   const [openFaq, setOpenFaq] = useState<number | null>(0);
 
   return (
     <div className="min-h-screen bg-[#f8fbfe] text-[#08295b] pt-20 sm:pt-24">
       {/* Top Banner */}
       <div className="w-full bg-[#0d47a1] text-white text-xs py-2 px-4 text-center font-medium">
-        <span>🎉 Get $30 Off Your First Clean — Use Code <strong>CLEAN30</strong></span>
+        <span>🎉 Get {countryConfig.currencySymbol}30 Off Your First Clean — Use Code <strong>CLEAN30</strong></span>
         <span className="mx-2 opacity-40">|</span>
-        <a href="tel:+61460849843" className="underline font-bold hover:text-[#2196f3]">
-          Call / SMS +61 460 849 843
+        <a href={`tel:${countryConfig.phone}`} className="underline font-bold hover:text-[#2196f3]">
+          Call / SMS {countryConfig.formattedPhone}
         </a>
       </div>
 
@@ -84,7 +86,7 @@ export default function ServicePageTemplate({
               <div className="flex items-baseline gap-2">
                 <span className="text-xs font-bold text-[#08295b]/60 uppercase">Starting From</span>
                 <span className="text-3xl sm:text-4xl font-black text-[#0d47a1]">{startingPrice}</span>
-                <span className="text-xs font-semibold text-[#08295b]/60">AUD / clean</span>
+                <span className="text-xs font-semibold text-[#08295b]/60">{countryConfig.currency} / clean</span>
               </div>
 
               <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:items-center sm:gap-3 pt-2">
@@ -96,11 +98,11 @@ export default function ServicePageTemplate({
                   <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
                 </a>
                 <a
-                  href="tel:+61460849843"
+                  href={`tel:${countryConfig.phone}`}
                   className="px-3 sm:px-6 py-2.5 sm:py-3.5 rounded-full bg-white border border-[#d0e4f7] text-[#08295b] hover:bg-[#e3f2fd] text-[11px] sm:text-xs md:text-sm font-bold tracking-wide transition-all shadow-xs flex items-center justify-center gap-1.5 sm:gap-2 text-center"
                 >
                   <Phone className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#0d47a1] shrink-0" />
-                  <span className="truncate">Call +61 460 849 843</span>
+                  <span className="truncate">Call {countryConfig.formattedPhone}</span>
                 </a>
               </div>
             </div>

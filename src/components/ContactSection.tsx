@@ -14,8 +14,10 @@ import {
   ShieldCheck,
   Lock,
 } from "lucide-react";
+import { useCountry } from "@/context/CountryContext";
 
 export default function ContactSection() {
+  const { countryConfig } = useCountry();
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -78,7 +80,7 @@ export default function ContactSection() {
         <div className="text-center max-w-2xl mx-auto space-y-2.5 sm:space-y-3 px-1">
           <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1 rounded-full bg-[#e3f2fd] border border-[#d0e4f7] text-[#0d47a1] text-[10px] sm:text-xs font-mono font-bold uppercase tracking-widest">
             <Sparkles className="w-3.5 h-3.5 text-[#2196f3]" />
-            <span>Fast Australian Response</span>
+            <span>Fast {countryConfig.name} Response</span>
           </div>
 
           <h2 className="text-2xl sm:text-4xl md:text-5xl font-black text-[#08295b] tracking-tight">
@@ -86,7 +88,7 @@ export default function ContactSection() {
           </h2>
 
           <p className="text-xs sm:text-sm md:text-base text-[#08295b]/70 font-normal">
-            Get an upfront quote within minutes or speak directly with our friendly Australian customer care team.
+            Get an upfront quote within minutes or speak directly with our friendly {countryConfig.name} customer care team.
           </p>
         </div>
 
@@ -103,7 +105,7 @@ export default function ContactSection() {
                   Get In Touch
                 </h3>
                 <p className="text-xs sm:text-sm text-[#08295b]/65 font-medium">
-                  Multiple ways to reach our friendly Australian team
+                  Multiple ways to reach our friendly {countryConfig.name} team
                 </p>
               </div>
 
@@ -116,9 +118,9 @@ export default function ContactSection() {
                     <MapPin className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#0d47a1]" />
                   </div>
                   <div>
-                    <h4 className="text-xs sm:text-sm font-bold text-[#08295b]">Perth Headquarters</h4>
+                    <h4 className="text-xs sm:text-sm font-bold text-[#08295b]">{countryConfig.office.title}</h4>
                     <p className="text-xs text-[#08295b]/80 font-medium mt-0.5 leading-relaxed">
-                      Unit 3, 25 Morrison Street, Como WA 6152
+                      {countryConfig.office.fullAddress}
                     </p>
                   </div>
                 </div>
@@ -131,10 +133,10 @@ export default function ContactSection() {
                   <div>
                     <h4 className="text-xs sm:text-sm font-bold text-[#08295b]">Email</h4>
                     <a
-                      href="mailto:marketingsuperboss@gmail.com"
+                      href={`mailto:${countryConfig.email}`}
                       className="text-xs text-[#0d47a1] hover:text-[#2196f3] font-semibold mt-0.5 block transition-colors break-all sm:break-normal"
                     >
-                      marketingsuperboss@gmail.com
+                      {countryConfig.email}
                     </a>
                   </div>
                 </div>
@@ -147,10 +149,10 @@ export default function ContactSection() {
                   <div>
                     <h4 className="text-xs sm:text-sm font-bold text-[#08295b]">Call Us</h4>
                     <a
-                      href="tel:+61460849843"
+                      href={`tel:${countryConfig.phone}`}
                       className="text-xs text-[#0d47a1] hover:text-[#2196f3] font-bold mt-0.5 block transition-colors"
                     >
-                      +61 460 849 843
+                      {countryConfig.formattedPhone}
                     </a>
                   </div>
                 </div>
@@ -189,7 +191,7 @@ export default function ContactSection() {
             {/* Bottom Trust Tag */}
             <div className="pt-4 border-t border-[#d0e4f7] flex items-center gap-2 text-xs text-[#08295b]/80 font-medium">
               <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
-              <span>100% Police Checked &amp; $10M Insured Cleaners</span>
+              <span>{countryConfig.cleanerTrustText}</span>
             </div>
           </div>
 
@@ -248,7 +250,7 @@ export default function ContactSection() {
                       <input
                         type="email"
                         required
-                        placeholder="yourname@email.com.au"
+                        placeholder={countryConfig.emailPlaceholder}
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                         className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/15 focus:border-[#2196f3] focus:bg-white/15 focus:ring-2 focus:ring-[#2196f3]/25 outline-none text-xs sm:text-sm text-white placeholder-white/40 transition-all font-medium"
@@ -262,7 +264,7 @@ export default function ContactSection() {
                       <input
                         type="tel"
                         required
-                        placeholder="+61 460 849 843"
+                        placeholder={countryConfig.formattedPhone}
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                         className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/15 focus:border-[#2196f3] focus:bg-white/15 focus:ring-2 focus:ring-[#2196f3]/25 outline-none text-xs sm:text-sm text-white placeholder-white/40 transition-all font-medium"
@@ -278,7 +280,7 @@ export default function ContactSection() {
                     <input
                       type="text"
                       required
-                      placeholder="e.g. 142 St Georges Terrace, Perth WA 6000"
+                      placeholder={countryConfig.addressPlaceholder}
                       value={formData.propertyAddress}
                       onChange={(e) => setFormData({ ...formData, propertyAddress: e.target.value })}
                       className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/15 focus:border-[#2196f3] focus:bg-white/15 focus:ring-2 focus:ring-[#2196f3]/25 outline-none text-xs sm:text-sm text-white placeholder-white/40 transition-all font-medium"
@@ -317,7 +319,7 @@ export default function ContactSection() {
                     <div className="flex items-center justify-center gap-1.5 px-2 text-center">
                       <Lock className="w-3.5 h-3.5 text-[#2196f3] shrink-0" />
                       <p className="text-[11px] sm:text-xs text-[#e3f2fd]/75 leading-relaxed">
-                        No spam guaranteed. Your information is protected under Australian Privacy Principles.
+                        {countryConfig.privacyNotice}
                       </p>
                     </div>
                   </div>

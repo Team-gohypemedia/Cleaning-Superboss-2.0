@@ -213,10 +213,6 @@ export default function Footer({ hideServices }: FooterProps = {}) {
           <div className={`mt-8 sm:mt-12 pt-4 sm:pt-6 border-t border-[#d0e4f7] flex flex-col sm:flex-row ${isBondPage ? "justify-end" : "justify-between"} items-center gap-3 relative z-10 w-full`}>
             <div className="flex flex-wrap items-center gap-2.5 text-[8px] sm:text-[9px] text-[#08295b]/60 uppercase tracking-widest font-medium text-left">
               <span>&copy; {new Date().getFullYear()} CLEANING SUPERBOSS LTD · ALL RIGHTS RESERVED.</span>
-              <span className="hidden sm:inline">·</span>
-              <Link href="/careers" className="hover:text-[#0d47a1] font-bold text-[#0d47a1] transition-colors">
-                CAREERS &amp; JOBS (WE'RE HIRING)
-              </Link>
             </div>
             <div className="flex items-center gap-2.5">
               {!isBondPage && (

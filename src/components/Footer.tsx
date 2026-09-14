@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { ArrowUp } from "lucide-react";
 import { useCountry } from "@/context/CountryContext";
 import CountrySelector from "@/components/CountrySelector";
 
@@ -121,6 +122,17 @@ export default function Footer({ hideServices }: FooterProps = {}) {
                       </Link>
                     </li>
                   ))}
+                  <li className="pt-2 mt-1.5 border-t border-[#d0e4f7]">
+                    <Link
+                      href="/careers"
+                      className="inline-flex items-center gap-1.5 font-bold text-[#0d47a1] hover:text-[#2196f3] transition-colors"
+                    >
+                      <span>CAREERS / JOIN CREW</span>
+                      <span className="bg-[#2196f3] text-white text-[8px] font-black px-1.5 py-0.5 rounded uppercase tracking-wider shadow-xs">
+                        HIRING
+                      </span>
+                    </Link>
+                  </li>
                 </ul>
               </div>
             )}
@@ -199,17 +211,32 @@ export default function Footer({ hideServices }: FooterProps = {}) {
 
           {/* Bottom copyright row */}
           <div className={`mt-8 sm:mt-12 pt-4 sm:pt-6 border-t border-[#d0e4f7] flex flex-col sm:flex-row ${isBondPage ? "justify-end" : "justify-between"} items-center gap-3 relative z-10 w-full`}>
-            <p className="text-[8px] sm:text-[9px] text-[#08295b]/60 uppercase tracking-widest font-medium text-left">
-              &copy; {new Date().getFullYear()} CLEANING SUPERBOSS LTD · ALL RIGHTS RESERVED.
-            </p>
-            {!isBondPage && (
-              <div className="flex items-center gap-2.5">
-                <CountrySelector />
-                <div className="text-[8px] sm:text-[9px] uppercase tracking-widest text-[#08295b]/60 font-bold bg-[#e3f2fd] px-2 py-0.5 rounded">
-                  {countryConfig.copyrightTag}
-                </div>
-              </div>
-            )}
+            <div className="flex flex-wrap items-center gap-2.5 text-[8px] sm:text-[9px] text-[#08295b]/60 uppercase tracking-widest font-medium text-left">
+              <span>&copy; {new Date().getFullYear()} CLEANING SUPERBOSS LTD · ALL RIGHTS RESERVED.</span>
+              <span className="hidden sm:inline">·</span>
+              <Link href="/careers" className="hover:text-[#0d47a1] font-bold text-[#0d47a1] transition-colors">
+                CAREERS &amp; JOBS (WE'RE HIRING)
+              </Link>
+            </div>
+            <div className="flex items-center gap-2.5">
+              {!isBondPage && (
+                <>
+                  <CountrySelector />
+                  <div className="text-[8px] sm:text-[9px] uppercase tracking-widest text-[#08295b]/60 font-bold bg-[#e3f2fd] px-2 py-0.5 rounded">
+                    {countryConfig.copyrightTag}
+                  </div>
+                </>
+              )}
+              <button
+                type="button"
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                className="flex items-center gap-1 text-[8px] sm:text-[9px] uppercase tracking-widest text-[#08295b]/70 hover:text-[#0d47a1] font-bold bg-white hover:bg-[#e3f2fd] border border-[#d0e4f7] px-2.5 py-1 rounded-md transition-all cursor-pointer shadow-xs active:scale-95"
+                title="Scroll to top"
+              >
+                <span>TOP</span>
+                <ArrowUp className="w-2.5 h-2.5 text-[#2196f3]" />
+              </button>
+            </div>
           </div>
 
         </div>

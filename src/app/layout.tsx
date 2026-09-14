@@ -5,6 +5,7 @@ import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import Navbar from "@/components/Navbar";
 import MobileStickyBottomBar from "@/components/MobileStickyBottomBar";
+import ScrollToTop from "@/components/ScrollToTop";
 import { CountryProvider } from "@/context/CountryContext";
 
 const inter = Inter({
@@ -50,6 +51,7 @@ export default function RootLayout({
             <Navbar />
             <main>{children}</main>
             {/* <MobileStickyBottomBar /> */}
+            <ScrollToTop />
           </SmoothScroll>
         </CountryProvider>
       </body>

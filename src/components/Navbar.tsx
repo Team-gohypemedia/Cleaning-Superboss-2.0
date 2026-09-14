@@ -189,6 +189,12 @@ export default function Navbar() {
             <a href="/#contact" className="hover:text-white transition-colors">
               Contact
             </a>
+            <Link
+              href="/careers"
+              className={`${pathname === "/careers" ? "text-white font-bold" : "text-zinc-300 hover:text-white"} transition-colors`}
+            >
+              Careers
+            </Link>
           </nav>
         )}
 
@@ -285,6 +291,14 @@ export default function Navbar() {
                 ))}
               </div>
             )}
+            <Link
+              href="/careers"
+              onClick={() => setMobileMenuOpen(false)}
+              className={`flex items-center justify-between text-sm font-semibold py-1 ${pathname === "/careers" ? "text-[#0d47a1]" : "text-[#08295b] hover:text-[#2196f3]"}`}
+            >
+              <span>Careers / Join Crew</span>
+              <span className="bg-[#e3f2fd] text-[#0d47a1] text-[10px] font-bold px-2 py-0.5 rounded-full border border-[#d0e4f7]">Hiring</span>
+            </Link>
           </div>
 
           <div className="pt-3 border-t border-[#d0e4f7] space-y-2">
